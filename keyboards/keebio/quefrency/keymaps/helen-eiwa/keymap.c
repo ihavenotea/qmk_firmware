@@ -40,8 +40,6 @@ enum custom_keycodes {
 #define JM(X) (X - JP_RANGE_START)
 #define RJM(X) (X - RJ_RANGE_START)
 
-
-
 const uint16_t dakumap[][2] =
   {
    [JM(JP_GA)] = {JP_KA,JP_DAKU},
@@ -227,7 +225,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     /* } */
 
   } else {
-  
+   
     switch (keycode) {
     case FHK_RJ_TOGGLE:
       if (record->event.pressed) {
@@ -308,15 +306,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] =
   (
    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,_______,_______,_______, \
    LT(_RJBLUE, KC_TAB), RJ_DOT, RJ_KA, RJ_TA, RJ_KO, RJ_SA, RJ_RA, RJ_TI, RJ_KU, RJ_TU, RJ_COMM, _______, _______, LT(_RJRED,KC_BSLS), \
-   _______, RJ_U,   RJ_SI, RJ_TE, RJ_KE, RJ_SE, RJ_HA, RJ_TO, RJ_KI, RJ_I, RJ_NN, _______, _______, \
-   _______, _______, RJ_HI, RJ_SU, RJ_HU, RJ_HE, RJ_ME, RJ_SO, RJ_NE, RJ_HO, RJ_BLT, _______, _______, \
+   _______,             RJ_U,   RJ_SI, RJ_TE, RJ_KE, RJ_SE, RJ_HA, RJ_TO, RJ_KI, RJ_I,  RJ_NN,   _______, _______, \
+   _______,             _______,RJ_HI, RJ_SU, RJ_HU, RJ_HE, RJ_ME, RJ_SO, RJ_NE, RJ_HO, RJ_BLT,  _______, _______, \
    _______, _______, _______, KC_ENT, MO(_RJRED),  MO(_RJBLUE), KC_SPC, _______, _______, _______, FHK_ENMODE, _______
    ),
 
   [_RJRED] = LAYOUT
   (
    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______, \
-   _______, RJ_XA,  RJ_E,  RJ_RI,  RJ_XYA, RJ_RE, RJ_PA, RJ_DI, RJ_GU, RJ_DU, RJ_PI, _______, _______, _______, \
+   _______, RJ_XA,  RJ_E,  RJ_RI,  RJ_XYA, RJ_RE, RJ_PA, RJ_DI, RJ_GU, RJ_DU, RJ_PI,   _______, _______, _______, \
    _______, RJ_WO,  RJ_A,  RJ_NA,  RJ_XYU, RJ_MO, RJ_BA, RJ_DO, RJ_GI, RJ_PO, _______, _______, _______, \
    _______, RJ_XU,  _______, RJ_RO, RJ_YA, RJ_XI, RJ_PU, RJ_ZO, RJ_PE, RJ_BO, _______, _______, _______, \
    _______, _______, _______, _______, _______,               _______, _______, _______, _______, _______, _______, _______
@@ -325,9 +323,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] =
   [_RJBLUE] = LAYOUT
   (
    _______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______,_______, \
-   _______,_______, RJ_GA, RJ_DA, RJ_GO, RJ_ZA, RJ_YO, RJ_NI, RJ_RU, RJ_MA, RJ_XE, _______, _______, _______, \
-   _______,_______, RJ_ZI,  RJ_DE,  RJ_GE, RJ_ZE, RJ_MI, RJ_O, RJ_NO, RJ_XYO, _______, _______, _______, \
-   _______,_______,  RJ_BI, RJ_ZU, RJ_BU, RJ_BI, RJ_NU, RJ_YU, RJ_MU, RJ_WA, _______, _______, _______, \
+   _______,_______, RJ_GA, RJ_DA, RJ_GO, RJ_ZA, RJ_YO, RJ_NI, RJ_RU, RJ_MA,  RJ_XE,   _______, _______, _______, \
+   _______,_______, RJ_ZI, RJ_DE, RJ_GE, RJ_ZE, RJ_MI, RJ_O,  RJ_NO, RJ_XYO, _______, _______, _______, \
+   _______,_______, RJ_BI, RJ_ZU, RJ_BU, RJ_BI, RJ_NU, RJ_YU, RJ_MU, RJ_WA,  _______, _______, _______, \
    _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______, _______
    ),
 
