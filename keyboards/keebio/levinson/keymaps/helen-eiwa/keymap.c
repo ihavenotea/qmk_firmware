@@ -1,4 +1,5 @@
 #include QMK_KEYBOARD_H
+#include <rgblight.h>
 #include "thumbshift.h"
 
 #define _BASE 0
@@ -21,6 +22,7 @@ enum custom_keycodes {
   RAISE,
   ADJUST,
 };
+
 
 #define JM(X) (X - JP_RANGE_START)
 #define RJM(X) (X - RJ_RANGE_START)
@@ -262,7 +264,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_LOWER] = LAYOUT_ortho_4x12( \
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
   _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  BL_STEP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  BL_STEP, _______, _______, _______, _______, _______, _______, _______, _______, _______, UC(0xA7), _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
 ),
 
@@ -272,16 +274,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |  F1  |  F2  |  F3  |  F4  |  F5  |      |   -  |   =  |   [  |   ]  |  \   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |Enter |
+ * |      |      |      |      |      |      |      |      |      |      |   §  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
+ * |      |      |      |      |      |      | rAlt |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
 [_RAISE] = LAYOUT_ortho_4x12( \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
   _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
+  _______, KC_A,    KC_B,    KC_C,    KC_D,    KC_E,    KC_F,    _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, KC_RALT, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
 ),
 
 /* Adjust (Lower + Raise)
@@ -290,7 +292,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |  F11 | F12  | F13  | F14  | F15  |      | Jp/En| PRCT |      |      |      |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |      |      |
+ * |      | Hue  | Sat  | Val  |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      | BASE |      |      |      |             |      | Home | PgDn | PgUp | End  |
  * `-----------------------------------------------------------------------------------'
@@ -298,26 +300,82 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] =  LAYOUT_ortho_4x12( \
   KC_ESC,  RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
   _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  _______, TG(_NIHON), TG(_PRACTICE), DF(_BASE),  _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, RGB_M_T, RGB_MOD, RGB_RMOD, RGB_TOG, _______, \
+  _______, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, RGB_M_T, RGB_MOD, RGB_RMOD, RGB_TOG, _______, \
   _______, TO(_BASE), _______, _______, _______, _______, _______, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END \
 )
 
 };
 
+#define HSV_FAINTPINK 234, 128, 64
+#define HSV_FAINTCORAL 11, 176, 128
+#define HSV_FAINTGOLDENROD 30, 218, 64
+#define HSV_FAINTCHARTREUSE 64, 255, 128
+#define HSV_FAINTCYAN 128, 255, 128
+#define HSV_FAINTPURPLE 191, 255, 128
+#define HSV_FAINTMAGENTA 213, 255, 128
+
+const rgblight_segment_t PROGMEM nihon_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_FAINTPURPLE}
+);
+const rgblight_segment_t PROGMEM redshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {5, 2, HSV_FAINTCORAL}
+);
+const rgblight_segment_t PROGMEM blueshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {5, 2, HSV_FAINTCYAN}
+);
+const rgblight_segment_t PROGMEM lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {4, 1, HSV_FAINTMAGENTA},
+    {7, 1, HSV_FAINTMAGENTA}
+);
+const rgblight_segment_t PROGMEM raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {4, 1, HSV_FAINTCHARTREUSE},
+    {7, 1, HSV_FAINTCHARTREUSE}
+);
+const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 1, HSV_FAINTGOLDENROD},
+    {5, 2, HSV_FAINTGOLDENROD},
+    {11, 1, HSV_FAINTGOLDENROD}
+);
+const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    nihon_lights,
+    redshift_lights,
+    blueshift_lights,
+    lower_lights,
+    raise_lights,
+    adjust_lights
+);
+
 void keyboard_post_init_user(void) {
   debug_enable=false;
   user_config.raw = eeconfig_read_user();
+
+
+  rgblight_sethsv(HSV_FAINTPINK);
+  rgblight_layers = my_rgb_layers;
 }
 
 void eeconfig_init_user(void) { 
   user_config.raw = 0;
   user_config.romaji_mode = true; 
   eeconfig_update_user(user_config.raw);
+
+  set_unicode_input_mode(UC_WIN);
 }
 
 void persistent_default_layer_set(uint16_t default_layer) {
   eeconfig_update_default_layer(default_layer);
   default_layer_set(default_layer);
+}
+
+
+layer_state_t layer_state_set_user(layer_state_t state) {
+    rgblight_set_layer_state(0, layer_state_cmp(state, _NIHON));
+    rgblight_set_layer_state(1, layer_state_cmp(state, _RED));
+    rgblight_set_layer_state(2, layer_state_cmp(state, _BLUE));
+    rgblight_set_layer_state(3, layer_state_cmp(state, _LOWER));
+    rgblight_set_layer_state(4, layer_state_cmp(state, _RAISE));
+    rgblight_set_layer_state(5, layer_state_cmp(state, _ADJUST));
+    return state;
 }
 
 static inline bool process_record_romaji(uint16_t keycode, keyrecord_t *record) {
