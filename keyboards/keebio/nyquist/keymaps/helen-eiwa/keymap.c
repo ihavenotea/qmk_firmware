@@ -2,6 +2,8 @@
 #include <rgblight.h>
 #include "thumbshift.h"
 
+#define RJDELAY 5
+
 #define _BASE 0
 
 #define _PRACTICE 2
@@ -167,6 +169,7 @@ typedef union {
 user_config_t user_config;
 
 
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* BASE
@@ -180,14 +183,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |Adjust|  JP  | Super| Alt  |Lower |Space |Space |Raise | Left | Down |  Up  |Right |
  * `-----------------------------------------------------------------------------------'
  */
-[_BASE] = LAYOUT_ortho_4x12( \
+[_BASE] = LAYOUT( \
+  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
   KC_TAB,       KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
   MT(MOD_LCTL,KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
   KC_LSFT,      KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MT(MOD_RSFT,KC_ENT) , \
-  ADJUST,       NIHON, KC_LGUI, KC_LALT, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+  ADJUST,       NIHON, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
-[_PRACTICE] =  LAYOUT_ortho_4x12( \
+[_PRACTICE] =  LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
@@ -208,10 +213,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      | EN   |      |      |      | RED  | BLUE |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_NIHON] = LAYOUT_ortho_4x12( \
-  _______, JP_DOT,  JP_KA, JP_TA, JP_KO, JP_SA, JP_RA, JP_TI, JP_KU, JP_TU, JP_COMM, _______, \
-  _______, JP_U,    JP_SI, JP_TE, JP_KE, JP_SE, JP_HA, JP_TO, JP_KI, JP_I,  JP_NN,   KC_SPC, \
-  _______, _______, JP_HI, JP_SU, JP_HU, JP_HE, JP_ME, JP_SO, JP_NE, JP_HO, JP_BLT,  _______, \
+[_NIHON] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, RJ_DOT,  RJ_KA, RJ_TA, RJ_KO, RJ_SA, RJ_RA, RJ_TI, RJ_KU, RJ_TU, RJ_COMM, _______, \
+  _______, RJ_U,    RJ_SI, RJ_TE, RJ_KE, RJ_SE, RJ_HA, RJ_TO, RJ_KI, RJ_I,  RJ_NN,   KC_SPC, \
+  _______, _______, RJ_HI, RJ_SU, RJ_HU, RJ_HE, RJ_ME, RJ_SO, RJ_NE, RJ_HO, RJ_BLT,  _______, \
   _______, QWERTY, _______, _______, _______, MO(_RED), MO(_BLUE), _______, _______, _______, _______, _______ \
 ),
 
@@ -226,10 +232,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |AltGrv|      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_RED] = LAYOUT_ortho_4x12( \
-  _______, JP_XA,  JP_E,  JP_RI,  JP_XYA, JP_RE, JP_PA, JP_DI, JP_GU, JP_DU, JP_PI,   _______, \
-  _______, JP_WO,  JP_A,  JP_NA,  JP_XYU, JP_MO, JP_BA, JP_DO, JP_GI, JP_PO, _______, _______, \
-  _______, JP_XU,  _______, JP_RO, JP_YA, JP_XI, JP_PU, JP_ZO, JP_PE, JP_BO, _______, _______, \
+[_RED] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, RJ_XA,  RJ_E,  RJ_RI,  RJ_XYA, RJ_RE, RJ_PA, RJ_DI, RJ_GU, RJ_DU, RJ_PI,   _______, \
+  _______, RJ_WO,  RJ_A,  RJ_NA,  RJ_XYU, RJ_MO, RJ_BA, RJ_DO, RJ_GI, RJ_PO, _______, _______, \
+  _______, RJ_XU,  KC_MINS, RJ_RO, RJ_YA, RJ_XI, RJ_PU, RJ_ZO, RJ_PE, RJ_BO, _______, _______, \
   _______, LALT(KC_GRAVE), _______, _______, _______, _______,_______, _______, _______, _______, _______, _______ \
 ),
 
@@ -244,10 +251,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |AltGrv|      |      |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_BLUE] = LAYOUT_ortho_4x12( \
-  _______, _______, JP_GA, JP_DA, JP_GO, JP_ZA, JP_YO, JP_NI, JP_RU, JP_MA,  JP_XE,   _______, \
-  _______, _______, JP_ZI, JP_DE, JP_GE, JP_ZE, JP_MI, JP_O,  JP_NO, JP_XYO, _______, _______, \
-  _______, _______, JP_BI, JP_ZU, JP_BU, JP_BI, JP_NU, JP_YU, JP_MU, JP_WA,  _______, _______, \
+[_BLUE] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, RJ_GA, RJ_DA, RJ_GO, RJ_ZA, RJ_YO, RJ_NI, RJ_RU, RJ_MA,  RJ_XE,   _______, \
+  _______, _______, RJ_ZI, RJ_DE, RJ_GE, RJ_ZE, RJ_MI, RJ_O,  RJ_NO, RJ_XYO, RJ_XTU, _______, \
+  _______, _______, RJ_BI, RJ_ZU, RJ_BU, RJ_BE, RJ_NU, RJ_YU, RJ_MU, RJ_WA,  _______, _______,			\
   _______, LALT(KC_GRAVE), _______, _______, _______, _______,_______, _______, _______, _______, _______, _______ \
 ),
 
@@ -263,10 +271,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |             |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT_ortho_4x12( \
+[_LOWER] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,  \
   _______, KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  _______, KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE, \
-  BL_STEP, _______, _______, _______, _______, _______, _______, _______, _______, _______, UC(0xA7), _______, \
+  BL_STEP, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, _______, _______, _______, _______, _______, _______, _______, KC_MNXT, KC_VOLD, KC_VOLU, KC_MPLY  \
 ),
 
@@ -276,12 +285,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+-------------+------+------+------+------+------|
  * |      |  F1  |  F2  |  F3  |  F4  |  F5  |      |   -  |   =  |   [  |   ]  |  \   |
  * |------+------+------+------+------+------|------+------+------+------+------+------|
- * |      |      |      |      |      |      |      |      |      |      |   ง  |Enter |
+ * |      |      |      |      |      |      |      |      |      |      |   ยง  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |      |      |      |      |      | rAlt |      | Next | Vol- | Vol+ | Play |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT_ortho_4x12( \
+[_RAISE] = LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
   _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   _______, KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS, \
   _______, KC_A,    KC_B,    KC_C,    KC_D,    KC_E,    KC_F,    _______, _______, _______, _______, _______, \
@@ -299,7 +309,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      | BASE |      |      |      |             |      | Home | PgDn | PgUp | End  |
  * `-----------------------------------------------------------------------------------'
  */
-[_ADJUST] =  LAYOUT_ortho_4x12( \
+[_ADJUST] =  LAYOUT( \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_ESC,  RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
   _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  _______, TG(_NIHON), TG(_PRACTICE), DF(_BASE),  _______, _______, \
   _______, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, RGB_M_T, RGB_MOD, RGB_RMOD, RGB_TOG, _______, \
@@ -316,29 +327,37 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define HSV_FAINTPURPLE 191, 255, 128
 #define HSV_FAINTMAGENTA 213, 255, 128
 
+const rgblight_segment_t PROGMEM base_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_TURQUOISE}
+);
+const rgblight_segment_t PROGMEM practice_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_GOLD}
+);
 const rgblight_segment_t PROGMEM nihon_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 12, HSV_FAINTPURPLE}
+    {0, 12, HSV_PINK}
 );
 const rgblight_segment_t PROGMEM redshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {5, 2, HSV_FAINTCORAL}
+    {5, 2, HSV_CORAL}
 );
 const rgblight_segment_t PROGMEM blueshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {5, 2, HSV_FAINTCYAN}
+    {5, 2, HSV_CYAN}
 );
 const rgblight_segment_t PROGMEM lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 1, HSV_FAINTMAGENTA},
-    {7, 1, HSV_FAINTMAGENTA}
+    {4, 1, HSV_MAGENTA},
+    {7, 1, HSV_MAGENTA}
 );
 const rgblight_segment_t PROGMEM raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 1, HSV_FAINTCHARTREUSE},
-    {7, 1, HSV_FAINTCHARTREUSE}
+    {4, 1, HSV_CHARTREUSE},
+    {7, 1, HSV_CHARTREUSE}
 );
 const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_FAINTGOLDENROD},
-    {5, 2, HSV_FAINTGOLDENROD},
-    {11, 1, HSV_FAINTGOLDENROD}
+    {3, 1, HSV_GOLDENROD},
+    {5, 2, HSV_GOLDENROD},
+    {8, 1, HSV_GOLDENROD}
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
+    base_lights,
+    practice_lights,
     nihon_lights,
     redshift_lights,
     blueshift_lights,
@@ -351,8 +370,7 @@ void keyboard_post_init_user(void) {
   debug_enable=false;
   user_config.raw = eeconfig_read_user();
 
-
-  rgblight_sethsv(HSV_FAINTPINK);
+  rgblight_sethsv(HSV_TURQUOISE);
   rgblight_layers = my_rgb_layers;
 }
 
@@ -360,8 +378,6 @@ void eeconfig_init_user(void) {
   user_config.raw = 0;
   user_config.romaji_mode = true; 
   eeconfig_update_user(user_config.raw);
-
-  set_unicode_input_mode(UC_WIN);
 }
 
 void persistent_default_layer_set(uint16_t default_layer) {
@@ -371,13 +387,15 @@ void persistent_default_layer_set(uint16_t default_layer) {
 
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(0, layer_state_cmp(state, _NIHON));
-    rgblight_set_layer_state(1, layer_state_cmp(state, _RED));
-    rgblight_set_layer_state(2, layer_state_cmp(state, _BLUE));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _LOWER));
-    rgblight_set_layer_state(4, layer_state_cmp(state, _RAISE));
-    rgblight_set_layer_state(5, layer_state_cmp(state, _ADJUST));
-    return state;
+  rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
+  rgblight_set_layer_state(1, layer_state_cmp(state, _PRACTICE));
+  rgblight_set_layer_state(2, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(3, layer_state_cmp(state, _RED));
+  rgblight_set_layer_state(4, layer_state_cmp(state, _BLUE));
+  rgblight_set_layer_state(5, layer_state_cmp(state, _LOWER));
+  rgblight_set_layer_state(6, layer_state_cmp(state, _RAISE));
+  rgblight_set_layer_state(7, layer_state_cmp(state, _ADJUST));
+  return state;
 }
 
 static inline bool process_record_romaji(uint16_t keycode, keyrecord_t *record) {
@@ -443,11 +461,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case QWERTY:
       if (record->event.pressed) {
-	register_code(KC_LALT);
-	register_code(KC_LSHIFT);
+	//register_code(KC_LALT);
+	//register_code(KC_LSHIFT);
       } else {
-	unregister_code(KC_LSHIFT);
-	unregister_code(KC_LALT);
+	//unregister_code(KC_LSHIFT);
+	//unregister_code(KC_LALT);
 	layer_off(_RED);
 	layer_off(_BLUE);
 	layer_off(_NIHON);
@@ -455,11 +473,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case NIHON:
       if (record->event.pressed) {
-	register_code(KC_LALT);
-	register_code(KC_LSHIFT);
+	//register_code(KC_LALT);
+	//register_code(KC_LSHIFT);
       } else {
-	unregister_code(KC_LSHIFT);
-	unregister_code(KC_LALT);
+	//unregister_code(KC_LSHIFT);
+	//unregister_code(KC_LALT);
 	layer_on(_NIHON);
       }
       break;
@@ -467,3 +485,4 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
