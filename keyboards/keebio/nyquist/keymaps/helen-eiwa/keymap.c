@@ -359,7 +359,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] =  LAYOUT( \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_ESC,  RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
-  _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  TG(_GAME), TG(_NIHON), TG(_PRACTICE), DF(_BASE),  _______, _______, \
+  _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  TO(_GAME), TO(_NIHON), TO(_PRACTICE), TO(_BASE),  _______, _______, \
   _______, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, RGB_M_T, RGB_MOD, RGB_RMOD, RGB_TOG, _______, \
   _______, TO(_BASE), _______, _______, _______, _______, _______, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END \
 )
@@ -369,6 +369,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define HSV_FAINTPINK 234, 128, 64
 #define HSV_FAINTCORAL 11, 176, 128
 #define HSV_FAINTGOLDENROD 30, 218, 64
+#define HSV_FAINTORANGE 28, 255, 128
 #define HSV_FAINTCHARTREUSE 64, 255, 128
 #define HSV_FAINTCYAN 128, 255, 128
 #define HSV_FAINTPURPLE 191, 255, 128
@@ -396,25 +397,19 @@ const rgblight_segment_t PROGMEM blueshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 2, HSV_CYAN}
 );
 const rgblight_segment_t PROGMEM lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 4, HSV_MAGENTA}
+    {4, 4, HSV_MAGENTA} 
 );
 const rgblight_segment_t PROGMEM raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {4, 4, HSV_CHARTREUSE}
 );
 const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    /* {3, 1, HSV_GOLDENROD}, */
-    /* {5, 2, HSV_GOLDENROD}, */
-    /* {8, 1, HSV_GOLDENROD} */
-    {0, 12, HSV_GOLDENROD}
+    {4, 4, HSV_FAINTORANGE}
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     base_lights,
     game_lights,
-    numpad_lights,
     practice_lights,
     nihon_lights,
-    redshift_lights,
-    blueshift_lights,
     lower_lights,
     raise_lights,
     adjust_lights
@@ -424,6 +419,8 @@ void keyboard_post_init_user(void) {
   debug_enable=false;
   user_config.raw = eeconfig_read_user();
 
+
+  rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
   rgblight_sethsv(HSV_FAINTPINK);
   rgblight_layers = my_rgb_layers;
 }
@@ -443,14 +440,11 @@ void persistent_default_layer_set(uint16_t default_layer) {
 layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
   rgblight_set_layer_state(1, layer_state_cmp(state, _GAME));
-  rgblight_set_layer_state(2, layer_state_cmp(state, _NUMPAD));
-  rgblight_set_layer_state(3, layer_state_cmp(state, _PRACTICE));
-  rgblight_set_layer_state(4, layer_state_cmp(state, _NIHON));
-  rgblight_set_layer_state(5, layer_state_cmp(state, _RED));
-  rgblight_set_layer_state(6, layer_state_cmp(state, _BLUE));
-  rgblight_set_layer_state(7, layer_state_cmp(state, _LOWER));
-  rgblight_set_layer_state(8, layer_state_cmp(state, _RAISE));
-  rgblight_set_layer_state(9, layer_state_cmp(state, _ADJUST));
+  rgblight_set_layer_state(2, layer_state_cmp(state, _PRACTICE));
+  rgblight_set_layer_state(3, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(4, layer_state_cmp(state, _LOWER));
+  rgblight_set_layer_state(5, layer_state_cmp(state, _RAISE));
+  rgblight_set_layer_state(6, layer_state_cmp(state, _ADJUST));
   return state;
 }
 
