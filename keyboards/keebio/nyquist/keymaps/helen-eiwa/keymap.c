@@ -6,14 +6,17 @@
 
 #define _BASE 0
 
-#define _PRACTICE 2
+#define _GAME 2 
+#define _NUMPAD 3
 
-#define _NIHON 3
-#define _RED 4
-#define _BLUE 5
+#define _PRACTICE 4
 
-#define _LOWER 6
-#define _RAISE 7
+#define _NIHON 5
+#define _RED 6
+#define _BLUE 7
+
+#define _LOWER 8
+#define _RAISE 9
 
 #define _ADJUST 16
 
@@ -184,19 +187,63 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_BASE] = LAYOUT( \
-  KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
-  KC_TAB,       KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
+              KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_BSPC, \
+              KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
   MT(MOD_LCTL,KC_ESC), KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT, \
-  KC_LSFT,      KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MT(MOD_RSFT,KC_ENT) , \
-  ADJUST,       NIHON, KC_LALT, KC_LGUI, LOWER,   KC_SPC,  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
+              KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, MT(MOD_RSFT,KC_ENT) , \
+              ADJUST, NIHON, KC_LGUI, KC_LALT,   LOWER,  KC_SPC,  KC_SPC,   RAISE,    KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
+
+/* GAME
+ * ,-----------------------------------------------------------------------------------.
+ * | F20  |      |      |      |      |      |      |      |      |      |      | Esc  |
+ * |------+------+------+------+------+-------------+------+------+------+------+------| 
+ * | Tab  |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * | Ctrl |      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |Sh/F21|      |      |      |      |      |      |      |      |      |      |      |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      | F22  | F23   | Alt  |Space |Shift |Space | NUMP |      |      |      |      |
+ * `-----------------------------------------------------------------------------------'
+ */
+
+[_GAME] =  LAYOUT( \
+              KC_F20,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_ESC, \
+              _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+              KC_LCTL, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  MT(MOD_LSFT,KC_F21), _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+              _______,  KC_F22,  KC_F23, KC_LALT, KC_SPC, KC_LSFT,  _______, _______, _______, _______, _______, _______ \
+),
+//TT(_NUMPAD)
+
+
+
+/* NUMPAD
+ * ,-----------------------------------------------------------------------------------.
+ * |      |      |      |      |      |      | NumL | /    | *    | -    | PrSc | ScLk |
+ * |------+------+------+------+------+-------------+------+------+------+------+------| 
+ * |      |      |      |      |      |      | 7    | 8    | 9    | +    | Home | PgUp |
+ * |------+------+------+------+------+-------------+------+------+------+------+------|
+ * |      |      |      |      |      |      | 4    | 5    | 6    | +    | End  | PgDn |
+ * |------+------+------+------+------+------|------+------+------+------+------+------|
+ * |      |      |      |      |      |      | 1    | 2    | 3    | ENT  | Ins  | Del  |
+ * |------+------+------+------+------+------+------+------+------+------+------+------|
+ * |      |      |      |      |      |      | 0    | GAME | .    | ENT  | Pause|Adjust|
+ * `-----------------------------------------------------------------------------------'
+ */
+
+
+
+
+
 [_PRACTICE] =  LAYOUT( \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, KC_LALT, _______, _______, _______, _______, _______, _______ \
+  _______, _______, _______, _______, _______, _______, KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS, KC_PSCR, KC_SLCK, \
+  _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, KC_HOME, KC_PGUP, \
+  _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PPLS, KC_END,  KC_PGDN, \
+  _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, KC_INS,  KC_DEL, \
+  _______, _______, _______, _______, _______, KC_LALT, KC_P0, _______,   KC_PDOT, KC_PENT, KC_PAUS, ADJUST \
 ),
 
 // KC_MHEN
@@ -312,7 +359,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_ADJUST] =  LAYOUT( \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   KC_ESC,  RESET,   _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_DEL, \
-  _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  _______, TG(_NIHON), TG(_PRACTICE), DF(_BASE),  _______, _______, \
+  _______, KC_F11,  KC_F12,  KC_F13,  KC_F14,  KC_F15,  TG(_GAME), TG(_NIHON), TG(_PRACTICE), DF(_BASE),  _______, _______, \
   _______, RGB_HUI, RGB_SAI, RGB_VAI, _______, _______, _______, RGB_M_T, RGB_MOD, RGB_RMOD, RGB_TOG, _______, \
   _______, TO(_BASE), _______, _______, _______, _______, _______, _______, KC_HOME,  KC_PGDN, KC_PGUP, KC_END \
 )
@@ -328,13 +375,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define HSV_FAINTMAGENTA 213, 255, 128
 
 const rgblight_segment_t PROGMEM base_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 12, HSV_TURQUOISE}
+    {0, 12, HSV_FAINTPINK}
+);
+const rgblight_segment_t PROGMEM game_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_SPRINGGREEN}
+);
+const rgblight_segment_t PROGMEM numpad_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {6, 6, HSV_AZURE}
 );
 const rgblight_segment_t PROGMEM practice_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {0, 12, HSV_GOLD}
 );
 const rgblight_segment_t PROGMEM nihon_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 12, HSV_PINK}
+    {0, 12, HSV_FAINTPURPLE}
 );
 const rgblight_segment_t PROGMEM redshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 2, HSV_CORAL}
@@ -343,20 +396,21 @@ const rgblight_segment_t PROGMEM blueshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 2, HSV_CYAN}
 );
 const rgblight_segment_t PROGMEM lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 1, HSV_MAGENTA},
-    {7, 1, HSV_MAGENTA}
+    {4, 4, HSV_MAGENTA}
 );
 const rgblight_segment_t PROGMEM raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 1, HSV_CHARTREUSE},
-    {7, 1, HSV_CHARTREUSE}
+    {4, 4, HSV_CHARTREUSE}
 );
 const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {3, 1, HSV_GOLDENROD},
-    {5, 2, HSV_GOLDENROD},
-    {8, 1, HSV_GOLDENROD}
+    /* {3, 1, HSV_GOLDENROD}, */
+    /* {5, 2, HSV_GOLDENROD}, */
+    /* {8, 1, HSV_GOLDENROD} */
+    {0, 12, HSV_GOLDENROD}
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     base_lights,
+    game_lights,
+    numpad_lights,
     practice_lights,
     nihon_lights,
     redshift_lights,
@@ -370,7 +424,7 @@ void keyboard_post_init_user(void) {
   debug_enable=false;
   user_config.raw = eeconfig_read_user();
 
-  rgblight_sethsv(HSV_TURQUOISE);
+  rgblight_sethsv(HSV_FAINTPINK);
   rgblight_layers = my_rgb_layers;
 }
 
@@ -388,13 +442,15 @@ void persistent_default_layer_set(uint16_t default_layer) {
 
 layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
-  rgblight_set_layer_state(1, layer_state_cmp(state, _PRACTICE));
-  rgblight_set_layer_state(2, layer_state_cmp(state, _NIHON));
-  rgblight_set_layer_state(3, layer_state_cmp(state, _RED));
-  rgblight_set_layer_state(4, layer_state_cmp(state, _BLUE));
-  rgblight_set_layer_state(5, layer_state_cmp(state, _LOWER));
-  rgblight_set_layer_state(6, layer_state_cmp(state, _RAISE));
-  rgblight_set_layer_state(7, layer_state_cmp(state, _ADJUST));
+  rgblight_set_layer_state(1, layer_state_cmp(state, _GAME));
+  rgblight_set_layer_state(2, layer_state_cmp(state, _NUMPAD));
+  rgblight_set_layer_state(3, layer_state_cmp(state, _PRACTICE));
+  rgblight_set_layer_state(4, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(5, layer_state_cmp(state, _RED));
+  rgblight_set_layer_state(6, layer_state_cmp(state, _BLUE));
+  rgblight_set_layer_state(7, layer_state_cmp(state, _LOWER));
+  rgblight_set_layer_state(8, layer_state_cmp(state, _RAISE));
+  rgblight_set_layer_state(9, layer_state_cmp(state, _ADJUST));
   return state;
 }
 
