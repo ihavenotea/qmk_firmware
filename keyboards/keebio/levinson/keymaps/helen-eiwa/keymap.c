@@ -3,14 +3,15 @@
 #include "thumbshift.h"
 
 #define _BASE 0
-#define _PRACTICE 2
 
 #define _NIHON 3
 #define _RED 4
 #define _BLUE 5
 
-#define _LOWER 6
-#define _RAISE 7
+#define _PRACTICE 6
+
+#define _LOWER 9
+#define _RAISE 10
 
 #define _ADJUST 16
 
@@ -20,6 +21,8 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  WK_TOGL,
+  WK_ENTR
 };
 
 
@@ -186,16 +189,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ADJUST,       NIHON, KC_LGUI, KC_LALT, LOWER,   MT(MOD_LGUI,KC_SPC),  KC_SPC,  RAISE,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT \
 ),
 
-[_PRACTICE] =  LAYOUT_ortho_4x12( \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
-  _______, _______, _______, _______, _______, KC_LALT, _______, _______, _______, _______, _______, _______ \
-),
-
-// KC_MHEN
-
-
 /* NIHON
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
@@ -211,7 +204,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, RJ_DOT,  RJ_KA, RJ_TA, RJ_KO, RJ_SA, RJ_RA, RJ_TI, RJ_KU, RJ_TU, RJ_COMM, _______, \
   _______, RJ_U,    RJ_SI, RJ_TE, RJ_KE, RJ_SE, RJ_HA, RJ_TO, RJ_KI, RJ_I,  RJ_NN,   KC_SPC, \
   _______, _______, RJ_HI, RJ_SU, RJ_HU, RJ_HE, RJ_ME, RJ_SO, RJ_NE, RJ_HO, RJ_BLT,  _______, \
-  _______, QWERTY, _______, _______, _______, MO(_RED), MO(_BLUE), _______, _______, _______, _______, _______ \
+  _______, QWERTY, _______, _______, _______, LT(_RED,KC_SPC), LT(_BLUE,KC_SPC), _______, _______, _______, _______, _______ \
 ),
 
 /* RED
@@ -249,6 +242,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, RJ_BI, RJ_ZU, RJ_BU, RJ_BE, RJ_NU, RJ_YU, RJ_MU, RJ_WA,  _______, _______, \
   _______, LALT(KC_GRAVE), _______, _______, _______, _______,_______, _______, _______, _______, _______, _______ \
 ),
+
+
+/* WaniKani Mode */
+
+[_PRACTICE] =  LAYOUT_ortho_4x12(					\
+  WK_TOGL, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, WK_ENTR, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
+),
+
 
 
 /* Lower
@@ -310,16 +314,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #define HSV_FAINTPINK 234, 128, 64
 #define HSV_FAINTCORAL 11, 176, 128
 #define HSV_FAINTGOLDENROD 30, 218, 64
+#define HSV_FAINTORANGE 28, 255, 128
 #define HSV_FAINTCHARTREUSE 64, 255, 128
-#define HSV_FAINTCYAN 128, 255, 128
+#define HSV_FAINTCYAN 128, 170, 96
 #define HSV_FAINTPURPLE 191, 255, 128
 #define HSV_FAINTMAGENTA 213, 255, 128
 
+const rgblight_segment_t PROGMEM base_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_FAINTCYAN}
+);
 const rgblight_segment_t PROGMEM practice_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 12, HSV_FAINTGOLDENROD}
+    {1, 3, HSV_FAINTGOLDENROD},
+    {8, 3, HSV_FAINTGOLDENROD}
 );
 const rgblight_segment_t PROGMEM nihon_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 12, HSV_FAINTPURPLE}
+    {0, 12, HSV_FAINTPINK}
 );
 const rgblight_segment_t PROGMEM redshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 2, HSV_FAINTCORAL}
@@ -328,23 +337,22 @@ const rgblight_segment_t PROGMEM blueshift_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {5, 2, HSV_FAINTCYAN}
 );
 const rgblight_segment_t PROGMEM lower_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {4, 1, HSV_FAINTMAGENTA},
-    {7, 1, HSV_FAINTMAGENTA}
+    {4, 1, HSV_MAGENTA},
+    {7, 1, HSV_MAGENTA}
 );
 const rgblight_segment_t PROGMEM raise_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {4, 1, HSV_FAINTCHARTREUSE},
     {7, 1, HSV_FAINTCHARTREUSE}
 );
 const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
-    {0, 1, HSV_FAINTGOLDENROD},
-    {5, 2, HSV_FAINTGOLDENROD},
-    {11, 1, HSV_FAINTGOLDENROD}
+    {0, 1, HSV_FAINTORANGE},
+    {5, 2, HSV_FAINTORANGE},
+    {11, 1, HSV_FAINTORANGE}
 );
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
-    practice_lights,
+    base_lights,
     nihon_lights,
-    redshift_lights,
-    blueshift_lights,
+    practice_lights,
     lower_lights,
     raise_lights,
     adjust_lights
@@ -355,7 +363,7 @@ void keyboard_post_init_user(void) {
   user_config.raw = eeconfig_read_user();
 
 
-  rgblight_sethsv(HSV_FAINTPINK);
+  rgblight_sethsv(HSV_FAINTCYAN);
   rgblight_layers = my_rgb_layers;
 }
 
@@ -374,14 +382,13 @@ void persistent_default_layer_set(uint16_t default_layer) {
 
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    rgblight_set_layer_state(0, layer_state_cmp(state, _PRACTICE));
-    rgblight_set_layer_state(1, layer_state_cmp(state, _NIHON));
-    rgblight_set_layer_state(2, layer_state_cmp(state, _RED));
-    rgblight_set_layer_state(3, layer_state_cmp(state, _BLUE));
-    rgblight_set_layer_state(4, layer_state_cmp(state, _LOWER));
-    rgblight_set_layer_state(5, layer_state_cmp(state, _RAISE));
-    rgblight_set_layer_state(6, layer_state_cmp(state, _ADJUST));
-    return state;
+  rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
+  rgblight_set_layer_state(1, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(2, layer_state_cmp(state, _PRACTICE));
+  rgblight_set_layer_state(3, layer_state_cmp(state, _LOWER));
+  rgblight_set_layer_state(4, layer_state_cmp(state, _RAISE));
+  rgblight_set_layer_state(5, layer_state_cmp(state, _ADJUST));
+  return state;
 }
 
 static inline bool process_record_romaji(uint16_t keycode, keyrecord_t *record) {
@@ -467,6 +474,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	layer_on(_NIHON);
       }
       break;
+      
+    case WK_TOGL:
+      if (!record->event.pressed) {
+	layer_invert(_NIHON);
+      }
+      break;
+     
+    case WK_ENTR:
+      if (record->event.pressed) {
+	layer_off(_RED);
+	layer_off(_BLUE);
+	layer_off(_NIHON);
+	register_code(KC_ENTER);
+      } else {
+	unregister_code(KC_ENTER);
+      }  
+      break;
+      
     }
   }
   return true;

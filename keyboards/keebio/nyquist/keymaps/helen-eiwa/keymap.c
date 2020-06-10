@@ -7,16 +7,16 @@
 #define _BASE 0
 
 #define _GAME 2 
-#define _NUMPAD 3
-
-#define _PRACTICE 4
+// #define _NUMPAD 3
 
 #define _NIHON 5
 #define _RED 6
 #define _BLUE 7
 
-#define _LOWER 8
-#define _RAISE 9
+#define _PRACTICE 8
+
+#define _LOWER 9
+#define _RAISE 10
 
 #define _ADJUST 16
 
@@ -26,6 +26,8 @@ enum custom_keycodes {
   LOWER,
   RAISE,
   ADJUST,
+  WK_TOGL,
+  WK_ENTR
 };
 
 
@@ -235,20 +237,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 
 
-
-
-
-[_PRACTICE] =  LAYOUT( \
-  _______, _______, _______, _______, _______, _______, KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS, KC_PSCR, KC_SLCK, \
-  _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, KC_HOME, KC_PGUP, \
-  _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PPLS, KC_END,  KC_PGDN, \
-  _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, KC_INS,  KC_DEL, \
-  _______, _______, _______, _______, _______, KC_LALT, KC_P0, _______,   KC_PDOT, KC_PENT, KC_PAUS, ADJUST \
-),
-
-// KC_MHEN
-
-
 /* NIHON
  * ,-----------------------------------------------------------------------------------.
  * |      |      |      |      |      |      |      |      |      |      |      |      |
@@ -304,6 +292,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, _______, RJ_ZI, RJ_DE, RJ_GE, RJ_ZE, RJ_MI, RJ_O,  RJ_NO, RJ_XYO, RJ_XTU, _______, \
   _______, _______, RJ_BI, RJ_ZU, RJ_BU, RJ_BE, RJ_NU, RJ_YU, RJ_MU, RJ_WA,  _______, _______,			\
   _______, LALT(KC_GRAVE), _______, _______, _______, _______,_______, _______, _______, _______, _______, _______ \
+),
+
+[_PRACTICE] =  LAYOUT(					\
+  WK_TOGL, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, WK_ENTR, \
+  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______ \
+),
+
+[_PRACTICE] =  LAYOUT( \
+  _______, _______, _______, _______, _______, _______, KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS, KC_PSCR, KC_SLCK, \
+  _______, _______, _______, _______, _______, _______, KC_P7,   KC_P8,   KC_P9,   KC_PPLS, KC_HOME, KC_PGUP, \
+  _______, _______, _______, _______, _______, _______, KC_P4,   KC_P5,   KC_P6,   KC_PPLS, KC_END,  KC_PGDN, \
+  _______, _______, _______, _______, _______, _______, KC_P1,   KC_P2,   KC_P3,   KC_PENT, KC_INS,  KC_DEL, \
+  _______, _______, _______, _______, _______, KC_LALT, KC_P0, _______,   KC_PDOT, KC_PENT, KC_PAUS, ADJUST \
 ),
 
 
@@ -385,6 +389,7 @@ const rgblight_segment_t PROGMEM numpad_lights[] = RGBLIGHT_LAYER_SEGMENTS(
     {6, 6, HSV_AZURE}
 );
 const rgblight_segment_t PROGMEM practice_lights[] = RGBLIGHT_LAYER_SEGMENTS(
+    {0, 12, HSV_GOLD},
     {0, 12, HSV_GOLD}
 );
 const rgblight_segment_t PROGMEM nihon_lights[] = RGBLIGHT_LAYER_SEGMENTS(
@@ -408,8 +413,8 @@ const rgblight_segment_t PROGMEM adjust_lights[] = RGBLIGHT_LAYER_SEGMENTS(
 const rgblight_segment_t* const PROGMEM my_rgb_layers[] = RGBLIGHT_LAYERS_LIST(
     base_lights,
     game_lights,
-    practice_lights,
     nihon_lights,
+    practice_lights,
     lower_lights,
     raise_lights,
     adjust_lights
@@ -440,8 +445,8 @@ void persistent_default_layer_set(uint16_t default_layer) {
 layer_state_t layer_state_set_user(layer_state_t state) {
   rgblight_set_layer_state(0, layer_state_cmp(state, _BASE));
   rgblight_set_layer_state(1, layer_state_cmp(state, _GAME));
-  rgblight_set_layer_state(2, layer_state_cmp(state, _PRACTICE));
-  rgblight_set_layer_state(3, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(2, layer_state_cmp(state, _NIHON));
+  rgblight_set_layer_state(3, layer_state_cmp(state, _PRACTICE));
   rgblight_set_layer_state(4, layer_state_cmp(state, _LOWER));
   rgblight_set_layer_state(5, layer_state_cmp(state, _RAISE));
   rgblight_set_layer_state(6, layer_state_cmp(state, _ADJUST));
@@ -531,6 +536,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	layer_on(_NIHON);
       }
       break;
+
+    case WK_TOGL:
+      if (!record->event.pressed) {
+	layer_invert(_NIHON);
+      }
+      break;
+     
+    case WK_ENTR:
+      if (record->event.pressed) {
+	layer_off(_RED);
+	layer_off(_BLUE);
+	layer_off(_NIHON);
+	register_code(KC_ENTER);
+      } else {
+	unregister_code(KC_ENTER);
+      }  
+      break;
+
     }
   }
   return true;
